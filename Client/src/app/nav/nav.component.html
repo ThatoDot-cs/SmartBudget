@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <ul class="mb-2 navbar-nav me-auto mb-md-0" *ngIf="loggedIn">
+    <ul class="mb-2 navbar-nav me-auto mb-md-0" *ngIf="accountService.currentUser$ | async">
       <li class="nav-item">
         <a class="nav-link" aria-current="page" href="#">Home</a>
       </li>
@@ -15,12 +15,9 @@
       <li class="nav-item">
         <a class="nav-link">Budget</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="logout()">Logout</a>
-      </li>
     </ul>
 
-    <div class="dropdown" *ngIf="loggedIn" dropdown>
+    <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
       <div class="dropdown-menu mt-2" *dropdownMenu>
         <a class="dropdown-item">Edit Profile</a>
@@ -30,7 +27,7 @@
     </div>
 
 
-    <form *ngIf="!loggedIn" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
       <input name="username"  [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username" aria-label="Username">
       <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password" aria-label="Password">
       <button class="btn btn-outline-success" type="submit">Login</button>
